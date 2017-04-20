@@ -1,0 +1,121 @@
+{
+    "actions": [
+        {
+            "name": "go_to_forest",
+            "cost": 1,
+            "pre_conditions": {
+                "in_village": true
+            },
+            "post_conditions": {
+                "in_forest": true,
+                "in_village": false
+            }
+        },
+        {
+            "name": "go_to_village",
+            "cost": 1,
+            "pre_conditions": {
+                "in_forest": true
+            },
+            "post_conditions": {
+                "in_forest": false,
+                "in_village": true
+            }
+        },
+        {
+            "name": "collect_branches",
+            "cost": 1,
+            "pre_conditions": {
+                "in_forest": true
+            },
+            "post_conditions": {
+                "has_branches": true
+            }
+        },
+        {
+            "name": "sell_branches",
+            "cost": 1,
+            "pre_conditions": {
+                "in_village": true,
+                "has_branches": true
+            },
+            "post_conditions": {
+                "has_branches": false,
+                "has_money": true
+            }
+        },
+        {
+            "name": "cut_down_tree",
+            "cost": 1,
+            "pre_conditions": {
+                "in_forest": true,
+                "has_axe": true
+            },
+            "post_conditions": {
+                "tree_cut_down": true
+            }
+        },
+        {
+            "name": "cut_logs",
+            "cost": 1,
+            "pre_conditions": {
+                "in_forest": true,
+                "tree_cut_down": true
+            },
+            "post_conditions": {
+                "has_logs": true
+            }
+        },
+        {
+            "name": "sell_logs",
+            "cost": 1,
+            "pre_conditions": {
+                "in_village": true,
+                "has_logs": true
+            },
+            "post_conditions": {
+                "has_logs": false,
+                "has_money": true
+            }
+        },
+        {
+            "name": "buy_axe",
+            "cost": 1,
+            "pre_conditions": {
+                "in_village": true,
+                "has_money": true
+            },
+            "post_conditions": {
+                "has_money": false,
+                "has_axe": true
+            }
+        }
+    ],
+
+    "initial_state": {
+        "in_village": true,
+        "in_forest": false,
+        "has_money": false,
+        "has_logs": false,
+        "has_branches": false,
+        "has_axe": false,
+        "tree_cut_down": false
+    },
+
+    "goal_state": {
+        "has_logs": true,
+        "in_village": true
+    },
+
+    "expected_actions": [
+        "go_to_forest",
+        "collect_branches",
+        "go_to_village",
+        "sell_branches",
+        "buy_axe",
+        "go_to_forest",
+        "cut_down_tree",
+        "cut_logs",
+        "go_to_village"
+    ]
+}

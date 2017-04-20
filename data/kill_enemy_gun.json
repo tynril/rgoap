@@ -1,0 +1,100 @@
+{
+    "actions": [
+        {
+            "name": "scout",
+            "cost": 1,
+            "pre_conditions": {
+                "armed_with_gun": true
+            },
+            "post_conditions": {
+                "enemy_visible": true
+            }
+        },
+        {
+            "name": "approach",
+            "cost": 1,
+            "pre_conditions": {
+                "enemy_visible": true
+            },
+            "post_conditions": {
+                "near_enemy": true
+            }
+        },
+        {
+            "name": "aim",
+            "cost": 1,
+            "pre_conditions": {
+                "enemy_visible": true,
+                "weapon_loaded": true
+            },
+            "post_conditions": {
+                "enemy_lined_up": true
+            }
+        },
+        {
+            "name": "shoot",
+            "cost": 1,
+            "pre_conditions": {
+                "enemy_lined_up": true
+            },
+            "post_conditions": {
+                "enemy_alive": false
+            }
+        },
+        {
+            "name": "load",
+            "cost": 1,
+            "pre_conditions": {
+                "armed_with_gun": true
+            },
+            "post_conditions": {
+                "weapon_loaded": true
+            }
+        },
+        {
+            "name": "detonate_bomb",
+            "cost": 5,
+            "pre_conditions": {
+                "armed_with_bomb": true,
+                "near_enemy": true
+            },
+            "post_conditions": {
+                "alive": false,
+                "enemy_alive": false
+            }
+        },
+        {
+            "name": "flee",
+            "cost": 1,
+            "pre_conditions": {
+                "enemy_visible": true
+            },
+            "post_conditions": {
+                "near_enemy": false
+            }
+        }
+    ],
+
+    "initial_state": {
+        "enemy_visible": false,
+        "armed_with_gun": true,
+        "weapon_loaded": false,
+        "enemy_lined_up": false,
+        "enemy_alive": true,
+        "armed_with_bomb": true,
+        "near_enemy": false,
+        "alive": true
+    },
+
+    "goal_state": {
+        "alive": true,
+        "enemy_alive": false
+    },
+
+    "expected_actions": [
+        "scout",
+        "load",
+        "aim",
+        "shoot"
+    ]
+}

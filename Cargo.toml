@@ -1,0 +1,12 @@
+[package]
+name = "rgoap"
+version = "0.1.0"
+authors = ["Samuel Loretan <tynril@gmail.com>"]
+
+[dependencies]
+serde = "0.9"
+serde_derive = "0.9"
+pathfinding = "0.1"
+
+[dev-dependencies]
+serde_json = "0.9"
