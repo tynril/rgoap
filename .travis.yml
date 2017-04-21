@@ -31,7 +31,7 @@ script:
 - |
   cargo build &&
   cargo test &&
-  cargo --only stable doc
+  cargo doc
 
 after_success:
 - cargo coveralls
