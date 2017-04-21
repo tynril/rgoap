@@ -2,6 +2,12 @@
 name = "rgoap"
 version = "0.1.0"
 authors = ["Samuel Loretan <tynril@gmail.com>"]
+license = "MIT"
+description = "Goal-Oriented Action-Planning"
+repository = "https://github.com/tynril/rgoap"
+documentation = "https://tynril.github.io/rgoap"
+keywords = ["goap", "ai", "action-planning"]
+readme = "README.md"
 
 [dependencies]
 serde = "0.9"
