@@ -20,7 +20,7 @@ cache:
 
 before_script:
 - |
-  pip install 'travis-cargo<0.2' --user &&
+  pip install 'travis-cargo<0.2' --user && 
   export PATH=$HOME/.local/bin:/usr/local/bin:$PATH
 
 script:
