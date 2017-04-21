@@ -241,11 +241,51 @@ mod tests {
     }
 
     #[test]
-    fn run_all_test_cases() {
+    fn run_test_files() {
         let paths = fs::read_dir("./data").unwrap();
         for path in paths {
             let case = TestCase::from_case_file(path.unwrap().path().as_path());
             case.assert_plan();
+        }
+    }
+
+    #[test]
+    fn test_edge_cases() {
+        let mut action = Action::new("action".to_string(), 1);
+        action.pre_conditions.insert("has_something".to_string(), true);
+        action.post_conditions.insert("is_winning".to_string(), true);
+
+        let actions = [action];
+
+        let mut initial_state = State::new();
+        initial_state.insert("has_something".to_string(), false);
+        initial_state.insert("is_winning".to_string(), false);
+
+        // No viable plan.
+        {
+            let mut goal_state = State::new();
+            goal_state.insert("is_winning".to_string(), true);
+
+            let plan = plan(&initial_state, &goal_state, &actions);
+            assert!(plan.is_none());
+        }
+
+        // The goal state is already reached in the initial state.
+        {
+            let mut goal_state = State::new();
+            goal_state.insert("is_winning".to_string(), false);
+
+            let plan = plan(&initial_state, &goal_state, &actions);
+            assert!(plan.unwrap().len() == 0);
+        }
+
+        // The goal state uses a state missing from the initial state.
+        {
+            let mut goal_state = State::new();
+            goal_state.insert("is_losing".to_string(), false);
+
+            let plan = plan(&initial_state, &goal_state, &actions);
+            assert!(plan.is_none());
         }
     }
 }
