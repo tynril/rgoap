@@ -10,9 +10,9 @@ keywords = ["goap", "ai", "action-planning"]
 readme = "README.md"
 
 [dependencies]
-serde = "0.9"
-serde_derive = "0.9"
-pathfinding = "0.1"
+serde = "^1.0"
+serde_derive = "^1.0"
+pathfinding = "^0.7"
 
 [dev-dependencies]
-serde_json = "0.9"
+serde_json = "^1.0"
