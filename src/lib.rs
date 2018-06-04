@@ -58,7 +58,9 @@
 //! ```
 
 #[macro_use]
+#[cfg(feature = "use_serde")]
 extern crate serde_derive;
+#[cfg(feature = "use_serde")]
 extern crate serde;
 extern crate pathfinding;
 
@@ -70,7 +72,8 @@ use pathfinding::prelude::astar;
 pub type State = BTreeMap<String, bool>;
 
 /// An action that can be used to influence the world state.
-#[derive(Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "use_serde", derive(Serialize, Deserialize))]
+#[derive(PartialEq, Eq)]
 pub struct Action {
     pub name: String,
     pub cost: usize,
@@ -190,6 +193,53 @@ pub fn plan<'a>(initial_state: &'a State,
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
+    #[test]
+    fn test_edge_cases() {
+        let mut action = Action::new("action".to_string(), 1);
+        action.pre_conditions.insert("has_something".to_string(), true);
+        action.post_conditions.insert("is_winning".to_string(), true);
+
+        let actions = [action];
+
+        let mut initial_state = State::new();
+        initial_state.insert("has_something".to_string(), false);
+        initial_state.insert("is_winning".to_string(), false);
+
+        // No viable plan.
+        {
+            let mut goal_state = State::new();
+            goal_state.insert("is_winning".to_string(), true);
+
+            let plan = plan(&initial_state, &goal_state, &actions);
+            assert!(plan.is_none());
+        }
+
+        // The goal state is already reached in the initial state.
+        {
+            let mut goal_state = State::new();
+            goal_state.insert("is_winning".to_string(), false);
+
+            let plan = plan(&initial_state, &goal_state, &actions);
+            assert!(plan.unwrap().len() == 0);
+        }
+
+        // The goal state uses a state missing from the initial state.
+        {
+            let mut goal_state = State::new();
+            goal_state.insert("is_losing".to_string(), false);
+
+            let plan = plan(&initial_state, &goal_state, &actions);
+            assert!(plan.is_none());
+        }
+    }
+}
+
+
+#[cfg(test)]
+#[cfg(feature = "use_serde")]
+mod tests_with_serde {
     extern crate serde_json;
 
     use super::*;
@@ -246,46 +296,6 @@ mod tests {
         for path in paths {
             let case = TestCase::from_case_file(path.unwrap().path().as_path());
             case.assert_plan();
-        }
-    }
-
-    #[test]
-    fn test_edge_cases() {
-        let mut action = Action::new("action".to_string(), 1);
-        action.pre_conditions.insert("has_something".to_string(), true);
-        action.post_conditions.insert("is_winning".to_string(), true);
-
-        let actions = [action];
-
-        let mut initial_state = State::new();
-        initial_state.insert("has_something".to_string(), false);
-        initial_state.insert("is_winning".to_string(), false);
-
-        // No viable plan.
-        {
-            let mut goal_state = State::new();
-            goal_state.insert("is_winning".to_string(), true);
-
-            let plan = plan(&initial_state, &goal_state, &actions);
-            assert!(plan.is_none());
-        }
-
-        // The goal state is already reached in the initial state.
-        {
-            let mut goal_state = State::new();
-            goal_state.insert("is_winning".to_string(), false);
-
-            let plan = plan(&initial_state, &goal_state, &actions);
-            assert!(plan.unwrap().len() == 0);
-        }
-
-        // The goal state uses a state missing from the initial state.
-        {
-            let mut goal_state = State::new();
-            goal_state.insert("is_losing".to_string(), false);
-
-            let plan = plan(&initial_state, &goal_state, &actions);
-            assert!(plan.is_none());
         }
     }
 }

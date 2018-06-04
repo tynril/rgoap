@@ -9,9 +9,13 @@ documentation = "https://tynril.github.io/rgoap"
 keywords = ["goap", "ai", "action-planning"]
 readme = "README.md"
 
+[features]
+default = [ ]
+use_serde = [ "serde", "serde_derive" ]
+
 [dependencies]
-serde = "^1.0"
-serde_derive = "^1.0"
+serde = { version = "^1.0", optional = true }
+serde_derive = { version = "^1.0", optional = true }
 pathfinding = "^0.7"
 
 [dev-dependencies]
