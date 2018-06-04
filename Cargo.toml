@@ -14,9 +14,9 @@ default = [ ]
 use_serde = [ "serde", "serde_derive" ]
 
 [dependencies]
-serde = { version = "0.9", optional = true }
-serde_derive = { version = "0.9", optional = true }
-pathfinding = "0.1"
+serde = { version = "^1.0", optional = true }
+serde_derive = { version = "^1.0", optional = true }
+pathfinding = "^0.7"
 
 [dev-dependencies]
-serde_json = "0.9"
+serde_json = "^1.0"

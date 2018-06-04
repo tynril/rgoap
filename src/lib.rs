@@ -66,7 +66,7 @@ extern crate pathfinding;
 
 use std::collections::BTreeMap;
 use std::hash::{Hash, Hasher};
-use pathfinding::astar;
+use pathfinding::prelude::astar;
 
 /// A map of state atoms to their values.
 pub type State = BTreeMap<String, bool>;
